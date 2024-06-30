@@ -10,6 +10,9 @@ namespace P02_FootballBetting.Data
         private const string ConnectionString = "Server=MENTAT\\SQLEXPRESS;Database=FootballBetting;Integrated Security=True;";
 
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Town> Towns { get; set; }
+
+        public DbSet<User> Users { get; set; }
 
         public FootballBettingContext(DbContextOptions db) : base(db) { }
 
