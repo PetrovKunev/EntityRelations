@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="DTOs\Export\" />
+    <Folder Include="DTOs\Import\" />
     <Folder Include="Results\" />
   </ItemGroup>
 
