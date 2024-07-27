@@ -26,7 +26,7 @@ namespace ProductShop
             //string categoryProductText = File.ReadAllText("../../../Datasets/categories-products.json");
             //Console.WriteLine(ImportCategoryProducts(db, categoryProductText));
 
-            Console.WriteLine(GetProductsInRange(db));
+            //Console.WriteLine(GetProductsInRange(db));
 
 
         }
@@ -95,6 +95,37 @@ namespace ProductShop
             };
 
             return JsonConvert.SerializeObject(products, settings);
+        }
+
+        public static string GetSoldProducts(ProductShopContext context)
+        {
+            var users = context.Users
+                .Where(u => u.ProductsSold.Any(p => p.Buyer != null))
+                .OrderBy(u => u.LastName)
+                .ThenBy(u => u.FirstName)
+                .Select(u => new ExportUserDto()
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    SoldProducts = u.ProductsSold
+                        .Where(p => p.Buyer != null)
+                        .Select(p => new ExportProductDto()
+                        {
+                            Name = p.Name,
+                            Price = p.Price
+                        })
+                        .ToList()
+                })
+                .ToList();
+
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                Formatting = Formatting.Indented
+            };
+
+            return JsonConvert.SerializeObject(users, settings);
         }
     }
 }
